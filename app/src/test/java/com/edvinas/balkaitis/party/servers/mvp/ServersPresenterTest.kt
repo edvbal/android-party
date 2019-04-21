@@ -1,8 +1,8 @@
 package com.edvinas.balkaitis.party.servers.mvp
 
-import com.edvinas.balkaitis.party.repository.TokenStorage
-import com.edvinas.balkaitis.party.servers.network.Server
-import com.edvinas.balkaitis.party.servers.network.ServersService
+import com.edvinas.balkaitis.party.data.repository.TokenRepository
+import com.edvinas.balkaitis.party.data.api.servers.Server
+import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class ServersPresenterTest {
     @Mock
-    private lateinit var tokenStorage: TokenStorage
+    private lateinit var tokenRepository: TokenRepository
     @Mock
     private lateinit var view: ServersContract.View
     @Mock
@@ -28,7 +28,7 @@ class ServersPresenterTest {
 
     @Before
     fun setUp() {
-        presenter = ServersPresenter(testScheduler, tokenStorage, serversService)
+        presenter = ServersPresenter(testScheduler, tokenRepository, serversService)
         presenter.takeView(view)
     }
 
@@ -36,7 +36,7 @@ class ServersPresenterTest {
     fun onLogoutClicked_removesTokenAndShowsLogin() {
         presenter.onLogoutClicked()
 
-        verify(tokenStorage).removeToken()
+        verify(tokenRepository).removeToken()
         verify(view).showLogin()
     }
 
@@ -59,7 +59,7 @@ class ServersPresenterTest {
     @Test
     fun onCreated_whenArrayIsNullAndServerDownloadSucceeds_populatesServers() {
         val serversList = listOf(Server(COUNTRY, DISTANCE))
-        given(tokenStorage.getToken()).willReturn(TOKEN)
+        given(tokenRepository.getToken()).willReturn(TOKEN)
         given(serversService.getServers("Bearer $TOKEN")).willReturn(Single.just(serversList))
 
         presenter.onCreated(null)
@@ -71,7 +71,7 @@ class ServersPresenterTest {
     @Test
     fun onCreated_whenArrayIsNullAndServerDownloadFails_showsError() {
         val throwable = Throwable(ERROR_MESSAGE)
-        given(tokenStorage.getToken()).willReturn(TOKEN)
+        given(tokenRepository.getToken()).willReturn(TOKEN)
         given(serversService.getServers("Bearer $TOKEN")).willReturn(Single.error(throwable))
 
         presenter.onCreated(null)

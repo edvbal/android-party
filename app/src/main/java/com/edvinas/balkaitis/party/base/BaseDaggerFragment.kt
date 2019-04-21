@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes
 import dagger.android.support.DaggerFragment
 
 abstract class BaseDaggerFragment : DaggerFragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -1,6 +1,7 @@
 package com.edvinas.balkaitis.party.repository
 
 import android.content.SharedPreferences
+import com.edvinas.balkaitis.party.data.repository.PreferencesTokenRepository
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -12,18 +13,18 @@ import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class PreferencesTokenStorageTest {
+class PreferencesTokenRepositoryTest {
 
     @Mock
     private lateinit var sharedPreferences: SharedPreferences
 
-    private lateinit var tokenStorage: PreferencesTokenStorage
+    private lateinit var tokenStorage: PreferencesTokenRepository
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var tokenEditor: SharedPreferences.Editor
 
     @Before
     fun setUp() {
-        tokenStorage = PreferencesTokenStorage(sharedPreferences)
+        tokenStorage = PreferencesTokenRepository(sharedPreferences)
 
         editor = mock(SharedPreferences.Editor::class.java)
         tokenEditor = mock(SharedPreferences.Editor::class.java)

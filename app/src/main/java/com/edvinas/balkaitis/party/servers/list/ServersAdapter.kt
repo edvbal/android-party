@@ -2,7 +2,7 @@ package com.edvinas.balkaitis.party.servers.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.edvinas.balkaitis.party.servers.network.Server
+import com.edvinas.balkaitis.party.data.api.servers.Server
 
 class ServersAdapter(
         private val factory: ServersViewHolderFactory

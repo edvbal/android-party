@@ -1,20 +1,19 @@
 package com.edvinas.balkaitis.party.login.mvp
 
-import com.edvinas.balkaitis.party.login.network.LoginBody
-import com.edvinas.balkaitis.party.login.network.LoginService
-import com.edvinas.balkaitis.party.repository.TokenStorage
-import com.edvinas.balkaitis.party.servers.network.Server
-import com.edvinas.balkaitis.party.servers.network.ServersService
+import com.edvinas.balkaitis.party.data.api.login.LoginBody
+import com.edvinas.balkaitis.party.data.api.login.LoginService
+import com.edvinas.balkaitis.party.data.repository.TokenRepository
+import com.edvinas.balkaitis.party.data.api.servers.Server
+import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import com.edvinas.balkaitis.party.utils.mvp.ViewPresenter
 import io.reactivex.Scheduler
 import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 
 class LoginPresenter(
-
     private val mainScheduler: Scheduler,
     private val loginService: LoginService,
-    private val tokenStorage: TokenStorage,
+    private val tokenRepository: TokenRepository,
     private val serversService: ServersService
 ) : LoginContract.Presenter, ViewPresenter<LoginContract.View>() {
 
@@ -22,7 +21,7 @@ class LoginPresenter(
         loginService.login(LoginBody(username, password))
             .observeOn(mainScheduler)
             .doOnSuccess { response ->
-                tokenStorage.saveToken(response.token)
+                tokenRepository.saveToken(response.token)
                 onView { showLoadingView() }
             }
             .flatMap { response -> serversService.getServers("Bearer ${response.token}") }

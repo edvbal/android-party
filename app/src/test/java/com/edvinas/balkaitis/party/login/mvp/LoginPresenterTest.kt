@@ -1,11 +1,11 @@
 package com.edvinas.balkaitis.party.login.mvp
 
-import com.edvinas.balkaitis.party.login.network.LoginBody
-import com.edvinas.balkaitis.party.login.network.LoginResponse
-import com.edvinas.balkaitis.party.login.network.LoginService
-import com.edvinas.balkaitis.party.repository.TokenStorage
-import com.edvinas.balkaitis.party.servers.network.Server
-import com.edvinas.balkaitis.party.servers.network.ServersService
+import com.edvinas.balkaitis.party.data.api.login.LoginBody
+import com.edvinas.balkaitis.party.data.api.login.LoginResponse
+import com.edvinas.balkaitis.party.data.api.login.LoginService
+import com.edvinas.balkaitis.party.data.repository.TokenRepository
+import com.edvinas.balkaitis.party.data.api.servers.Server
+import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
@@ -20,7 +20,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class LoginPresenterTest {
     @Mock private lateinit var view: LoginContract.View
     @Mock private lateinit var loginService: LoginService
-    @Mock private lateinit var tokenStorage: TokenStorage
+    @Mock private lateinit var tokenRepository: TokenRepository
     @Mock private lateinit var serversService: ServersService
 
     private lateinit var presenter: LoginPresenter
@@ -29,7 +29,7 @@ class LoginPresenterTest {
 
     @Before
     fun setUp() {
-        presenter = LoginPresenter(testScheduler, loginService, tokenStorage, serversService)
+        presenter = LoginPresenter(testScheduler, loginService, tokenRepository, serversService)
         presenter.takeView(view)
     }
 
@@ -42,7 +42,7 @@ class LoginPresenterTest {
         presenter.onLoginClicked(USERNAME, PASSWORD)
         testScheduler.triggerActions()
 
-        verify(tokenStorage).saveToken(TOKEN)
+        verify(tokenRepository).saveToken(TOKEN)
         verify(view).showLoadingView()
     }
 
@@ -75,7 +75,11 @@ class LoginPresenterTest {
     @Test
     fun onLoginClicked_onGetServersError_showsErrorMessageAndHidesLoadingView() {
         val loginBody = LoginBody(USERNAME, PASSWORD)
-        given(loginService.login(loginBody)).willReturn(Single.just(LoginResponse(TOKEN)))
+        given(loginService.login(loginBody)).willReturn(Single.just(
+            LoginResponse(
+                TOKEN
+            )
+        ))
         given(serversService.getServers("Bearer $TOKEN")).willReturn(Single.error(Throwable(ERROR_MESSAGE)))
 
         presenter.onLoginClicked(USERNAME, PASSWORD)

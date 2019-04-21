@@ -8,14 +8,13 @@ import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
 import com.edvinas.balkaitis.party.login.mvp.LoginContract
 import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
-import com.edvinas.balkaitis.party.servers.network.Server
+import com.edvinas.balkaitis.party.data.api.servers.Server
 import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
 
 class LoginFragment : BaseDaggerFragment(), LoginContract.View {
-
     @Inject
     lateinit var presenter: LoginContract.Presenter
 

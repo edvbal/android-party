@@ -15,7 +15,6 @@ import javax.inject.Singleton
         AppModule::class
     ]
 )
-
 interface AppComponent : AndroidInjector<PartyApplication> {
 
     @Component.Builder

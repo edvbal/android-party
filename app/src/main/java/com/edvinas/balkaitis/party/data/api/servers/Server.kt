@@ -1,4 +1,4 @@
-package com.edvinas.balkaitis.party.servers.network
+package com.edvinas.balkaitis.party.data.api.servers
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

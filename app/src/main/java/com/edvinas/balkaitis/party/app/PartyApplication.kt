@@ -5,7 +5,6 @@ import dagger.android.DaggerApplication
 import timber.log.Timber
 
 class PartyApplication : DaggerApplication() {
-
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = DaggerAppComponent.builder().create(this)
 
     override fun onCreate() {

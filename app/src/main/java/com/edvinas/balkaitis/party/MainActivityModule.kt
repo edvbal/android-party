@@ -10,7 +10,6 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainActivityModule {
-
     @FragmentScope
     @ContributesAndroidInjector(modules = [LoginModule::class])
     abstract fun contributeLoginFragment(): LoginFragment

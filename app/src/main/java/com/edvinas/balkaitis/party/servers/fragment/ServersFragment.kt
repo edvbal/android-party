@@ -10,13 +10,12 @@ import com.edvinas.balkaitis.party.base.BaseDaggerFragment
 import com.edvinas.balkaitis.party.login.fragment.LoginFragment
 import com.edvinas.balkaitis.party.servers.list.ServersAdapter
 import com.edvinas.balkaitis.party.servers.mvp.ServersContract
-import com.edvinas.balkaitis.party.servers.network.Server
+import com.edvinas.balkaitis.party.data.api.servers.Server
 import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_servers.*
 import javax.inject.Inject
 
 class ServersFragment : BaseDaggerFragment(), ServersContract.View {
-
     @Inject lateinit var presenter: ServersContract.Presenter
     @Inject lateinit var adapter: ServersAdapter
 
