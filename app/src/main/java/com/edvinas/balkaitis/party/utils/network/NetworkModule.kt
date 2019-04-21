@@ -1,8 +1,8 @@
 package com.edvinas.balkaitis.party.utils.network
 
 import com.edvinas.balkaitis.party.BuildConfig
-import com.edvinas.balkaitis.party.login.network.LoginService
-import com.edvinas.balkaitis.party.servers.network.ServersService
+import com.edvinas.balkaitis.party.data.api.login.LoginService
+import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import com.edvinas.balkaitis.party.utils.schedulers.Io
 import dagger.Module
 import dagger.Provides
@@ -16,13 +16,8 @@ import javax.inject.Singleton
 
 @Module
 abstract class NetworkModule {
-
     @Module
     companion object {
-        private const val AUTHORIZATION_HEADER = "orization"
-        private const val BEARER = "Bearer"
-
-
         @JvmStatic
         @Singleton
         @Provides
