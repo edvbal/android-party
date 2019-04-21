@@ -26,6 +26,8 @@ android {
 
 def daggerVersion = '2.16'
 def retrofitVersion = '2.4.0'
+def androidArchVersion = '1.1.1'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -42,6 +44,10 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+
+    implementation "android.arch.lifecycle:extensions:$androidArchVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$androidArchVersion"
+    testImplementation "android.arch.core:core-testing:$androidArchVersion"
 
     implementation 'com.squareup.retrofit2:retrofit:' + retrofitVersion
     implementation 'com.squareup.retrofit2:adapter-rxjava2:' + retrofitVersion
