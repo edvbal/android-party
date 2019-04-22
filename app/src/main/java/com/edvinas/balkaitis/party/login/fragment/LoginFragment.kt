@@ -2,13 +2,15 @@ package com.edvinas.balkaitis.party.login.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
+import com.edvinas.balkaitis.party.data.api.servers.Server
 import com.edvinas.balkaitis.party.login.mvp.LoginContract
 import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
-import com.edvinas.balkaitis.party.data.api.servers.Server
+import com.edvinas.balkaitis.party.utils.extensions.hideKeyboard
 import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
@@ -44,6 +46,17 @@ class LoginFragment : BaseDaggerFragment(), LoginContract.View {
             clone(requireContext(), R.layout.fragment_login_loading)
         }
         loadingConstraintSet.applyTo(root_layout)
+
+        val animation = R.anim.rotate_animation
+        loadingImage.startAnimation(AnimationUtils.loadAnimation(requireContext(), animation))
+    }
+
+    override fun showFetchingMessage() {
+        fetchingListLabel.visibility = View.VISIBLE
+    }
+
+    override fun closeKeyboard() {
+        this.hideKeyboard()
     }
 
     override fun hideLoadingView() {

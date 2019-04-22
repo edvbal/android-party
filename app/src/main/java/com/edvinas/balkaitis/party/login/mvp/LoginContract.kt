@@ -9,6 +9,8 @@ interface LoginContract {
         fun showLoadingView()
         fun showServers(servers: List<Server>)
         fun hideLoadingView()
+        fun showFetchingMessage()
+        fun closeKeyboard()
     }
 
     interface Presenter : BasePresenter<View> {
