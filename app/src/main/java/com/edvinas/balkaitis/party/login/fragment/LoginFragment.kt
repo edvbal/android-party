@@ -5,12 +5,11 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.navigation.fragment.findNavController
 import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
 import com.edvinas.balkaitis.party.login.LoginViewModel
-import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
 import com.edvinas.balkaitis.party.utils.extensions.hideKeyboard
-import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -66,8 +65,10 @@ class LoginFragment : BaseDaggerFragment() {
 
     private fun showServers() {
         val generalErrorMessage = getString(R.string.general_error_something_wrong)
-        activity?.replaceFragment(ServersFragment.newInstance())
-                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.actionServersList)
+
+//        activity?.replaceFragment(ServersFragment.newInstance())
+//                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

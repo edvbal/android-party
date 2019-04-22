@@ -1,11 +1,9 @@
 package com.edvinas.balkaitis.party
 
 import android.os.Bundle
+import androidx.navigation.findNavController
 import com.edvinas.balkaitis.party.base.BaseDaggerActivity
 import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
-import com.edvinas.balkaitis.party.login.fragment.LoginFragment
-import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
-import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import javax.inject.Inject
 
 class MainActivity : BaseDaggerActivity() {
@@ -15,12 +13,14 @@ class MainActivity : BaseDaggerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            if (tokenRepository.getToken().isEmpty()) {
-                replaceFragment(LoginFragment.newInstance())
-            } else {
-                replaceFragment(ServersFragment.newInstance())
-            }
-        }
+//        if (savedInstanceState == null) {
+//            if (tokenRepository.getToken().isEmpty()) {
+//                replaceFragment(LoginFragment.newInstance())
+//            } else {
+//                replaceFragment(ServersFragment.newInstance())
+//            }
+//        }
     }
+
+    override fun onSupportNavigateUp() = findNavController(R.id.navHostFragment).navigateUp()
 }

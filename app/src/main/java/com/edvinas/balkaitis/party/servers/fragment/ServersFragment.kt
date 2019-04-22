@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
 import com.edvinas.balkaitis.party.data.database.ServerEntity
-import com.edvinas.balkaitis.party.login.fragment.LoginFragment
 import com.edvinas.balkaitis.party.servers.list.ServersAdapter
-import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_servers.*
 import javax.inject.Inject
 
@@ -45,8 +43,8 @@ class ServersFragment : BaseDaggerFragment() {
 
     private fun showLogin() {
         val generalErrorMessage = getString(R.string.general_error_something_wrong)
-        activity?.replaceFragment(LoginFragment.newInstance())
-                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
+//        activity?.replaceFragment(LoginFragment.newInstance())
+//                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
     }
 
     private fun setLoading(isLoading: Int) {
