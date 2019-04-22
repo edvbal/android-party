@@ -39,7 +39,8 @@ class ServersRepositoryImpl(
         return serversDao.getAll().subscribeOn(scheduler)
     }
 
-    override fun deleteServers() {
-        database.clearAllTables()
+    override fun deleteServers(): Completable {
+        return Completable.fromCallable { database.clearAllTables() }
+                .subscribeOn(scheduler)
     }
 }

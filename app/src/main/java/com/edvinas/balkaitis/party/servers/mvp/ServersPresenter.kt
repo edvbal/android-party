@@ -16,6 +16,8 @@ class ServersPresenter(
 ) : ServersContract.Presenter, ViewPresenter<ServersContract.View>() {
     override fun onLogoutClicked() {
         serversRepository.deleteServers()
+                .subscribe({}, Timber::e)
+                .addTo(subscription)
         tokenRepository.removeToken()
         onView { showLogin() }
     }
