@@ -27,6 +27,7 @@ android {
 def daggerVersion = '2.16'
 def retrofitVersion = '2.4.0'
 def androidArchVersion = '1.1.1'
+def navigationComponentVersion = '1.0.0'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -54,6 +55,9 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$androidArchVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$androidArchVersion"
     testImplementation "android.arch.persistence.room:testing:$androidArchVersion"
+
+    implementation "android.arch.navigation:navigation-fragment-ktx:$navigationComponentVersion"
+    implementation "android.arch.navigation:navigation-ui-ktx:$navigationComponentVersion"
 
     implementation 'com.squareup.retrofit2:retrofit:' + retrofitVersion
     implementation 'com.squareup.retrofit2:adapter-rxjava2:' + retrofitVersion
