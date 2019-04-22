@@ -8,43 +8,40 @@ import androidx.constraintlayout.widget.ConstraintSet
 import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
 import com.edvinas.balkaitis.party.login.LoginViewModel
-import com.edvinas.balkaitis.party.login.mvp.LoginContract
 import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
 import com.edvinas.balkaitis.party.utils.extensions.hideKeyboard
 import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_login.*
-import javax.inject.Inject
 
 
-class LoginFragment : BaseDaggerFragment(), LoginContract.View {
-//    @Inject
-//    lateinit var presenter: LoginContract.Presenter
-
+class LoginFragment : BaseDaggerFragment() {
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel(LoginViewModel::class)
-//        presenter.takeView(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.observeFetchStartEvent().onResult { showFetchingMessage() }
+        viewModel.observeLoadingStartEvent().onResult { showLoadingView() }
+        viewModel.observeLoadingStopEvent().onResult { hideLoadingView() }
+        viewModel.observeHideKeyboardEvent().onResult { hideKeyboard() }
+        viewModel.observeLoginCompleteEvent().onResult { showServers() }
+        viewModel.observeErrorEvent().onResult(::showError)
         loginButton.setOnClickListener {
-            //            presenter.onLoginClicked(
-//                    usernameInput.text.toString(),
-//                    passwordInput.text.toString()
-//            )
+            viewModel.onLoginClicked(usernameInput.text.toString(), passwordInput.text.toString())
         }
-    }
-
-    override fun showError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     override fun getLayoutId() = R.layout.fragment_login
 
-    override fun showLoadingView() {
+    private fun showError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showLoadingView() {
         val loadingConstraintSet = ConstraintSet().apply {
             clone(requireContext(), R.layout.fragment_login_loading)
         }
@@ -54,15 +51,11 @@ class LoginFragment : BaseDaggerFragment(), LoginContract.View {
         loadingImage.startAnimation(AnimationUtils.loadAnimation(requireContext(), animation))
     }
 
-    override fun showFetchingMessage() {
+    private fun showFetchingMessage() {
         fetchingListLabel.visibility = View.VISIBLE
     }
 
-    override fun closeKeyboard() {
-        this.hideKeyboard()
-    }
-
-    override fun hideLoadingView() {
+    private fun hideLoadingView() {
         loadingImage.clearAnimation()
 
         val initialLoginConstraintSet = ConstraintSet().apply {
@@ -71,16 +64,11 @@ class LoginFragment : BaseDaggerFragment(), LoginContract.View {
         initialLoginConstraintSet.applyTo(root_layout)
     }
 
-    override fun showServers() {
+    private fun showServers() {
         val generalErrorMessage = getString(R.string.general_error_something_wrong)
         activity?.replaceFragment(ServersFragment.newInstance())
-                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
+                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_SHORT).show()
     }
-
-//    override fun onDestroy() {
-//        presenter.dropView()
-//        super.onDestroy()
-//    }
 
     companion object {
         fun newInstance() = LoginFragment()
