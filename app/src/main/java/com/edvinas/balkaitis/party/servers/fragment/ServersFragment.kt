@@ -10,61 +10,54 @@ import com.edvinas.balkaitis.party.base.BaseDaggerFragment
 import com.edvinas.balkaitis.party.data.database.ServerEntity
 import com.edvinas.balkaitis.party.login.fragment.LoginFragment
 import com.edvinas.balkaitis.party.servers.list.ServersAdapter
-import com.edvinas.balkaitis.party.servers.mvp.ServersContract
 import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import kotlinx.android.synthetic.main.fragment_servers.*
 import javax.inject.Inject
 
-class ServersFragment : BaseDaggerFragment(), ServersContract.View {
-    @Inject
-    lateinit var presenter: ServersContract.Presenter
+class ServersFragment : BaseDaggerFragment() {
     @Inject
     lateinit var adapter: ServersAdapter
 
-    override fun getLayoutId() = R.layout.fragment_servers
+    private lateinit var viewModel: ServersViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.takeView(this)
-    }
+    override fun getLayoutId() = R.layout.fragment_servers
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onCreated()
-        iconLogout.setOnClickListener { presenter.onLogoutClicked() }
+        initialiseRecycler()
+        iconLogout.setOnClickListener { viewModel.onLogoutClicked() }
+        viewModel = getViewModel(ServersViewModel::class)
+        viewModel.observeErrorEvent().onResult(::showError)
+        viewModel.observeLoadingState().onResult(::setLoading)
+        viewModel.serversReceivedEvent().onResult(::populateServers)
+        viewModel.observeShowLoginEvent().onResult { showLogin() }
     }
 
-    override fun showError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-    }
-
-    override fun showLogin() {
-        val generalErrorMessage = getString(R.string.general_error_something_wrong)
-        activity?.replaceFragment(LoginFragment.newInstance())
-                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
-    }
-
-    override fun initialiseList() {
+    private fun initialiseRecycler() {
         serversList.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         serversList.setHasFixedSize(true)
         serversList.adapter = adapter
     }
 
-    override fun setLoading(isLoading: Int) {
+    private fun showError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showLogin() {
+        val generalErrorMessage = getString(R.string.general_error_something_wrong)
+        activity?.replaceFragment(LoginFragment.newInstance())
+                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    private fun setLoading(isLoading: Int) {
         progressBar.visibility = isLoading
     }
 
-    override fun populateServers(servers: List<ServerEntity>) {
+    private fun populateServers(servers: List<ServerEntity>) {
         adapter.setAll(servers)
     }
 
-    override fun onDestroy() {
-        presenter.dropView()
-        super.onDestroy()
-    }
-
     companion object {
-        private const val KEY_SERVERS = "key.servers"
         fun newInstance() = ServersFragment()
     }
 }

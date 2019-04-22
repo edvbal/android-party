@@ -16,9 +16,9 @@ class LoginViewModel(
 ) : RxViewModel() {
     private val fetchStartEvent = MutableLiveData<Unit>()
     private val loginCompleteEvent = MutableLiveData<Unit>()
-    private val loadingStartEvent = SingleLiveEvent<Unit>()
+    private val loadingStartEvent = MutableLiveData<Unit>()
     private val hideKeyboardEvent = MutableLiveData<Unit>()
-    private val loadingStopEvent = SingleLiveEvent<Unit>()
+    private val loadingStopEvent = MutableLiveData<Unit>()
     private val errorEvent = SingleLiveEvent<String>()
 
     fun observeHideKeyboardEvent(): LiveData<Unit> = hideKeyboardEvent
