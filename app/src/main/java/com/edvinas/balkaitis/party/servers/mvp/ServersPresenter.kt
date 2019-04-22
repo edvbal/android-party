@@ -1,35 +1,38 @@
 package com.edvinas.balkaitis.party.servers.mvp
 
-import com.edvinas.balkaitis.party.data.repository.TokenRepository
-import com.edvinas.balkaitis.party.data.api.servers.Server
-import com.edvinas.balkaitis.party.data.api.servers.ServersService
+import android.view.View
+import com.edvinas.balkaitis.party.data.database.ServerEntity
+import com.edvinas.balkaitis.party.data.repository.servers.ServersRepository
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
 import com.edvinas.balkaitis.party.utils.mvp.ViewPresenter
 import io.reactivex.Scheduler
 import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 
 class ServersPresenter(
-    private val mainScheduler: Scheduler,
-    private val tokenRepository: TokenRepository,
-    private val serversService: ServersService
+        private val mainScheduler: Scheduler,
+        private val tokenRepository: TokenRepository,
+        private val serversRepository: ServersRepository
 ) : ServersContract.Presenter, ViewPresenter<ServersContract.View>() {
     override fun onLogoutClicked() {
         tokenRepository.removeToken()
         onView { showLogin() }
     }
 
-    override fun onCreated(servers: Array<Server>?) {
-        onView { setList() }
-        servers?.let { nonNullServers ->
-            onView { populateServers(nonNullServers) }
-        } ?: serversService.getServers("Bearer ${tokenRepository.getToken()}")
+    override fun onCreated() {
+        onView { initialiseList() }
+
+        serversRepository.getServers()
                 .observeOn(mainScheduler)
+                .doOnSubscribe { onView { setLoading(View.VISIBLE) } }
+                .doOnSuccess { onView { setLoading(View.GONE) } }
+                .doOnError { onView { setLoading(View.GONE) } }
                 .subscribe(::onServersReceived, ::onServersDownloadFailed)
                 .addTo(subscription)
     }
 
-    private fun onServersReceived(servers: List<Server>) {
-        onView { populateServers(servers.toTypedArray()) }
+    private fun onServersReceived(servers: List<ServerEntity>) {
+        onView { populateServers(servers) }
     }
 
     private fun onServersDownloadFailed(throwable: Throwable) {

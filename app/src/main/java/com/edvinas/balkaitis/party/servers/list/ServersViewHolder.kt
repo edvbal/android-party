@@ -3,13 +3,13 @@ package com.edvinas.balkaitis.party.servers.list
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.edvinas.balkaitis.party.R
-import com.edvinas.balkaitis.party.data.api.servers.Server
+import com.edvinas.balkaitis.party.data.database.ServerEntity
 import kotlinx.android.synthetic.main.item_server.view.*
 
 class ServersViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-    fun bind(server: Server) {
+    fun bind(server: ServerEntity) {
         itemView.country.text = server.country
         val distanceLabelId = R.string.server_item_label_distance
-        itemView.distance.text = view.context.getString(distanceLabelId, server.distance)
+        itemView.distance.text = view.context.getString(distanceLabelId, server.distance.toString())
     }
 }

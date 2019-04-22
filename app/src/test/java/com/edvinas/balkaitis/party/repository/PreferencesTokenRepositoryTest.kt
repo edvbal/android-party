@@ -1,7 +1,7 @@
 package com.edvinas.balkaitis.party.repository
 
 import android.content.SharedPreferences
-import com.edvinas.balkaitis.party.data.repository.PreferencesTokenRepository
+import com.edvinas.balkaitis.party.data.repository.token.PreferencesTokenRepository
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

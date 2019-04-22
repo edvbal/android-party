@@ -1,6 +1,8 @@
 package com.edvinas.balkaitis.party.app
 
-import com.edvinas.balkaitis.party.utils.network.NetworkModule
+import com.edvinas.balkaitis.party.data.api.ApiModule
+import com.edvinas.balkaitis.party.data.database.DatabaseModule
+import com.edvinas.balkaitis.party.data.repository.RepositoryModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -8,12 +10,14 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [
-        AndroidSupportInjectionModule::class,
-        AppContributorsModule::class,
-        NetworkModule::class,
-        AppModule::class
-    ]
+        modules = [
+            AndroidSupportInjectionModule::class,
+            AppContributorsModule::class,
+            RepositoryModule::class,
+            DatabaseModule::class,
+            ApiModule::class,
+            AppModule::class
+        ]
 )
 interface AppComponent : AndroidInjector<PartyApplication> {
 

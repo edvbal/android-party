@@ -2,8 +2,8 @@ package com.edvinas.balkaitis.party
 
 import android.os.Bundle
 import com.edvinas.balkaitis.party.base.BaseDaggerActivity
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
 import com.edvinas.balkaitis.party.login.fragment.LoginFragment
-import com.edvinas.balkaitis.party.data.repository.TokenRepository
 import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
 import com.edvinas.balkaitis.party.utils.extensions.replaceFragment
 import javax.inject.Inject

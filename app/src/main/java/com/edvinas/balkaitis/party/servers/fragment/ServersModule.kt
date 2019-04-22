@@ -1,11 +1,11 @@
 package com.edvinas.balkaitis.party.servers.fragment
 
-import com.edvinas.balkaitis.party.data.repository.TokenRepository
+import com.edvinas.balkaitis.party.data.repository.servers.ServersRepository
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
 import com.edvinas.balkaitis.party.servers.list.ServersAdapter
 import com.edvinas.balkaitis.party.servers.list.ServersViewHolderFactory
 import com.edvinas.balkaitis.party.servers.mvp.ServersContract
 import com.edvinas.balkaitis.party.servers.mvp.ServersPresenter
-import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import com.edvinas.balkaitis.party.utils.schedulers.Main
 import com.edvinas.balkaitis.party.utils.scopes.FragmentScope
 import dagger.Module
@@ -18,11 +18,11 @@ abstract class ServersModule {
     companion object {
         @FragmentScope @JvmStatic @Provides
         fun providePresenter(
-            tokenRepository: TokenRepository,
-            @Main mainScheduler: Scheduler,
-            serversService: ServersService
+                tokenRepository: TokenRepository,
+                @Main mainScheduler: Scheduler,
+                repository: ServersRepository
         ): ServersContract.Presenter {
-            return ServersPresenter(mainScheduler, tokenRepository, serversService)
+            return ServersPresenter(mainScheduler, tokenRepository, repository)
         }
 
         @JvmStatic @Provides

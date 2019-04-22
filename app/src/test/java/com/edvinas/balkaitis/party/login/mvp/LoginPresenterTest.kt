@@ -2,10 +2,10 @@ package com.edvinas.balkaitis.party.login.mvp
 
 import com.edvinas.balkaitis.party.data.api.login.LoginBody
 import com.edvinas.balkaitis.party.data.api.login.LoginResponse
-import com.edvinas.balkaitis.party.data.api.login.LoginService
-import com.edvinas.balkaitis.party.data.repository.TokenRepository
 import com.edvinas.balkaitis.party.data.api.servers.Server
 import com.edvinas.balkaitis.party.data.api.servers.ServersService
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
+import com.edvinas.balkaitis.party.login.Authenticator
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class LoginPresenterTest {
     @Mock private lateinit var view: LoginContract.View
-    @Mock private lateinit var loginService: LoginService
+    @Mock private lateinit var authenticator: Authenticator
     @Mock private lateinit var tokenRepository: TokenRepository
     @Mock private lateinit var serversService: ServersService
 
@@ -29,7 +29,7 @@ class LoginPresenterTest {
 
     @Before
     fun setUp() {
-        presenter = LoginPresenter(testScheduler, loginService, tokenRepository, serversService)
+        presenter = LoginPresenter(testScheduler, authenticator, serversService)
         presenter.takeView(view)
     }
 

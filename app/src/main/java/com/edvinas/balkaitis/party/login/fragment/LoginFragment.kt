@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
-import com.edvinas.balkaitis.party.data.api.servers.Server
 import com.edvinas.balkaitis.party.login.mvp.LoginContract
 import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
 import com.edvinas.balkaitis.party.utils.extensions.hideKeyboard
@@ -60,15 +59,17 @@ class LoginFragment : BaseDaggerFragment(), LoginContract.View {
     }
 
     override fun hideLoadingView() {
+        loadingImage.clearAnimation()
+
         val initialLoginConstraintSet = ConstraintSet().apply {
             clone(requireContext(), R.layout.fragment_login)
         }
         initialLoginConstraintSet.applyTo(root_layout)
     }
 
-    override fun showServers(servers: List<Server>) {
+    override fun showServers() {
         val generalErrorMessage = getString(R.string.general_error_something_wrong)
-        activity?.replaceFragment(ServersFragment.newInstance(servers))
+        activity?.replaceFragment(ServersFragment.newInstance())
             ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
     }
 

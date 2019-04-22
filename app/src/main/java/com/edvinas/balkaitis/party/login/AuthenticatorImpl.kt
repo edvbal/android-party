@@ -2,7 +2,7 @@ package com.edvinas.balkaitis.party.login
 
 import com.edvinas.balkaitis.party.data.api.login.LoginBody
 import com.edvinas.balkaitis.party.data.api.login.LoginService
-import com.edvinas.balkaitis.party.data.repository.TokenRepository
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
 import io.reactivex.Single
 
 class AuthenticatorImpl(

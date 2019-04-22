@@ -1,4 +1,4 @@
-package com.edvinas.balkaitis.party.data.repository
+package com.edvinas.balkaitis.party.data.repository.token
 
 import android.content.SharedPreferences
 
@@ -15,8 +15,8 @@ class PreferencesTokenRepository(
     }
 
     override fun getToken(): String = sharedPreferences.getString(
-        KEY_TOKEN,
-        EMPTY_TOKEN
+            KEY_TOKEN,
+            EMPTY_TOKEN
     )!!
 
     companion object {

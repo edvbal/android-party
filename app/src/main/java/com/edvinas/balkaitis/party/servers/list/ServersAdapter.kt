@@ -2,13 +2,13 @@ package com.edvinas.balkaitis.party.servers.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.edvinas.balkaitis.party.data.api.servers.Server
+import com.edvinas.balkaitis.party.data.database.ServerEntity
 
 class ServersAdapter(
         private val factory: ServersViewHolderFactory
 ) : RecyclerView.Adapter<ServersViewHolder>() {
 
-    private val servers = mutableListOf<Server>()
+    private val servers = mutableListOf<ServerEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServersViewHolder {
         return factory.create(parent)
@@ -20,7 +20,7 @@ class ServersAdapter(
         holder.bind(servers[position])
     }
 
-    fun setAll(servers: List<Server>) {
+    fun setAll(servers: List<ServerEntity>) {
         this.servers.clear()
         this.servers.addAll(servers)
         notifyDataSetChanged()

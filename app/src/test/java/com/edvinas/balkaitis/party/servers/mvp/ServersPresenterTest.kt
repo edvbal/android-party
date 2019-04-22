@@ -1,8 +1,8 @@
 package com.edvinas.balkaitis.party.servers.mvp
 
-import com.edvinas.balkaitis.party.data.repository.TokenRepository
 import com.edvinas.balkaitis.party.data.api.servers.Server
 import com.edvinas.balkaitis.party.data.api.servers.ServersService
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
@@ -44,7 +44,7 @@ class ServersPresenterTest {
     fun onCreated_setsList() {
         presenter.onCreated(emptyArray())
 
-        verify(view).setList()
+        verify(view).initialiseList()
     }
 
     @Test
