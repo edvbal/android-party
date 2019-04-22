@@ -4,9 +4,13 @@ import android.content.Context
 import com.edvinas.balkaitis.party.BuildConfig
 import com.edvinas.balkaitis.party.data.api.login.LoginService
 import com.edvinas.balkaitis.party.data.api.servers.ServersService
+import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
+import com.edvinas.balkaitis.party.login.Authenticator
+import com.edvinas.balkaitis.party.login.AuthenticatorImpl
 import com.edvinas.balkaitis.party.utils.network.NetworkChecker
 import com.edvinas.balkaitis.party.utils.network.NetworkCheckerImpl
 import com.edvinas.balkaitis.party.utils.schedulers.Io
+import com.edvinas.balkaitis.party.utils.scopes.FragmentScope
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
@@ -57,5 +61,12 @@ abstract class ApiModule {
         @Singleton
         @Provides
         fun provideNetworkChecker(context: Context): NetworkChecker = NetworkCheckerImpl(context)
+
+        @JvmStatic
+        @Provides
+        fun provideAuthenticator(
+                loginService: LoginService,
+                tokenRepository: TokenRepository
+        ): Authenticator = AuthenticatorImpl(loginService, tokenRepository)
     }
 }

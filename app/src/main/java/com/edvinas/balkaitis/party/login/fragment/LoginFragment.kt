@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import com.edvinas.balkaitis.party.R
 import com.edvinas.balkaitis.party.base.BaseDaggerFragment
+import com.edvinas.balkaitis.party.login.LoginViewModel
 import com.edvinas.balkaitis.party.login.mvp.LoginContract
 import com.edvinas.balkaitis.party.servers.fragment.ServersFragment
 import com.edvinas.balkaitis.party.utils.extensions.hideKeyboard
@@ -16,21 +17,24 @@ import javax.inject.Inject
 
 
 class LoginFragment : BaseDaggerFragment(), LoginContract.View {
-    @Inject
-    lateinit var presenter: LoginContract.Presenter
+//    @Inject
+//    lateinit var presenter: LoginContract.Presenter
+
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.takeView(this)
+        viewModel = getViewModel(LoginViewModel::class)
+//        presenter.takeView(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loginButton.setOnClickListener {
-            presenter.onLoginClicked(
-                usernameInput.text.toString(),
-                passwordInput.text.toString()
-            )
+            //            presenter.onLoginClicked(
+//                    usernameInput.text.toString(),
+//                    passwordInput.text.toString()
+//            )
         }
     }
 
@@ -70,13 +74,13 @@ class LoginFragment : BaseDaggerFragment(), LoginContract.View {
     override fun showServers() {
         val generalErrorMessage = getString(R.string.general_error_something_wrong)
         activity?.replaceFragment(ServersFragment.newInstance())
-            ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
+                ?: Toast.makeText(requireContext(), generalErrorMessage, Toast.LENGTH_LONG).show()
     }
 
-    override fun onDestroy() {
-        presenter.dropView()
-        super.onDestroy()
-    }
+//    override fun onDestroy() {
+//        presenter.dropView()
+//        super.onDestroy()
+//    }
 
     companion object {
         fun newInstance() = LoginFragment()
