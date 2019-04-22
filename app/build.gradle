@@ -27,7 +27,6 @@ android {
 def daggerVersion = '2.16'
 def retrofitVersion = '2.4.0'
 def androidArchVersion = '1.1.1'
-def roomVersion = '1.1.1'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -50,11 +49,11 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$androidArchVersion"
     testImplementation "android.arch.core:core-testing:$androidArchVersion"
 
-    implementation "android.arch.persistence.room:runtime:$roomVersion"
-    implementation "android.arch.persistence.room:rxjava2:$roomVersion"
-    kapt "android.arch.persistence.room:compiler:$roomVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
-    testImplementation "android.arch.persistence.room:testing:$roomVersion"
+    implementation "android.arch.persistence.room:runtime:$androidArchVersion"
+    implementation "android.arch.persistence.room:rxjava2:$androidArchVersion"
+    kapt "android.arch.persistence.room:compiler:$androidArchVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$androidArchVersion"
+    testImplementation "android.arch.persistence.room:testing:$androidArchVersion"
 
     implementation 'com.squareup.retrofit2:retrofit:' + retrofitVersion
     implementation 'com.squareup.retrofit2:adapter-rxjava2:' + retrofitVersion
