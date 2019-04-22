@@ -3,6 +3,7 @@ package com.edvinas.balkaitis.party.data.repository.servers
 import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import com.edvinas.balkaitis.party.data.database.ServerEntity
 import com.edvinas.balkaitis.party.data.database.ServersDao
+import com.edvinas.balkaitis.party.data.database.ServersDatabase
 import com.edvinas.balkaitis.party.data.repository.token.TokenRepository
 import com.edvinas.balkaitis.party.utils.network.NetworkChecker
 import io.reactivex.Completable
@@ -14,7 +15,8 @@ class ServersRepositoryImpl(
         private val serversDao: ServersDao,
         private val serversService: ServersService,
         private val networkChecker: NetworkChecker,
-        private val tokenRepository: TokenRepository
+        private val tokenRepository: TokenRepository,
+        private val database: ServersDatabase
 ) : ServersRepository {
     override fun updateServersDbFromApi(): Completable {
         return serversService.getServers("Bearer ${tokenRepository.getToken()}")
@@ -35,5 +37,9 @@ class ServersRepositoryImpl(
                     }
         }
         return serversDao.getAll().subscribeOn(scheduler)
+    }
+
+    override fun deleteServers() {
+        database.clearAllTables()
     }
 }

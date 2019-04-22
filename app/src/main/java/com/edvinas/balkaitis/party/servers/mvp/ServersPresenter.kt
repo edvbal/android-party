@@ -15,6 +15,7 @@ class ServersPresenter(
         private val serversRepository: ServersRepository
 ) : ServersContract.Presenter, ViewPresenter<ServersContract.View>() {
     override fun onLogoutClicked() {
+        serversRepository.deleteServers()
         tokenRepository.removeToken()
         onView { showLogin() }
     }

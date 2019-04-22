@@ -7,4 +7,5 @@ import io.reactivex.Single
 interface ServersRepository {
     fun updateServersDbFromApi(): Completable
     fun getServers(): Single<List<ServerEntity>>
+    fun deleteServers()
 }

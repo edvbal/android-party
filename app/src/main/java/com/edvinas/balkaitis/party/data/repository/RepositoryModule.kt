@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import com.edvinas.balkaitis.party.data.api.servers.ServersService
 import com.edvinas.balkaitis.party.data.database.ServersDao
+import com.edvinas.balkaitis.party.data.database.ServersDatabase
 import com.edvinas.balkaitis.party.data.repository.servers.ServersRepository
 import com.edvinas.balkaitis.party.data.repository.servers.ServersRepositoryImpl
 import com.edvinas.balkaitis.party.data.repository.token.PreferencesTokenRepository
@@ -27,13 +28,14 @@ abstract class RepositoryModule {
 
         @JvmStatic @Singleton @Provides
         fun provideServersRepository(
-                @Io scheduler: Scheduler,
-                dao: ServersDao,
-                service: ServersService,
+                tokenRepository: TokenRepository,
+                database: ServersDatabase,
                 networkChecker: NetworkChecker,
-                tokenRepository: TokenRepository
+                @Io scheduler: Scheduler,
+                service: ServersService,
+                dao: ServersDao
         ): ServersRepository {
-            return ServersRepositoryImpl(scheduler, dao, service, networkChecker, tokenRepository)
+            return ServersRepositoryImpl(scheduler, dao, service, networkChecker, tokenRepository, database)
         }
     }
 }
